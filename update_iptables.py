@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from setup_node import run_command
-import os
+import os, subprocess
 
 def check_ip(client_ip):
     with open("credentials.txt", "r") as file:
@@ -25,6 +25,10 @@ def main():
         action = "ACCEPT" if check_credentials(client_ip, password) else "DROP"
     else:
         action = "DROP"
+    while True:
+        delete_rule = subprocess.run(["sudo", "iptables", "-D", "INPUT", "-p", "tcp", "--dport", "21", "-s", client_ip], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if delete_rule.returncode != 0:
+            break
     run_command("iptables", "-I", "INPUT", "-p", "tcp", "--dport", "21", "-s", client_ip, "-j", action)
     if action == "DROP":
         print(f"Access denied for {client_ip} due to incorrect {'Credential Key' if check_ip(client_ip) else 'IP address'}.")

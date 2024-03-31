@@ -8,7 +8,7 @@
      ```
    - Запустіть контейнер:
      ```bash
-     multipass start nc-ftp
+     multipass shell nc-ftp
      ```
 2. **Налаштування мережі для Windows Home:**
    - Зупиніть контейнер:
@@ -18,7 +18,7 @@
    - [Завантажте](https://discourse.ubuntu.com/t/how-to-use-virtualbox-in-multipass-on-windows/16626#heading--finding-multipass-instances-in-virtualbox) та розпакуйте PSTools.zip у папку Downloads.
    - Виконайте команду:
      ```bash
-     $env:USERPROFILE\Downloads\PSTools\PsExec.exe -s -i $env:VBOX_MSI_INSTALL_PATH\VirtualBox.exe
+     & $env:USERPROFILE\Downloads\PSTools\PsExec.exe -s -i $env:VBOX_MSI_INSTALL_PATH\VirtualBox.exe
      ```
    - Відкрийте DHCP сервер і встановіть нижню межу адрес на 192.168.56.2.
    - Зайдіть в контейнер:
