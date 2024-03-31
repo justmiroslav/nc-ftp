@@ -11,13 +11,8 @@ def setup_iptables(allowed_ips):
     run_command("iptables", "-F")
     run_command("iptables", "-A", "INPUT", "-p", "icmp", "--icmp-type", "echo-request", "-j", "DROP")
     run_command("iptables", "-A", "INPUT", "-p", "tcp", "--dport", "21", "-j", "DROP")
-    if allowed_ips:
-        for ip in allowed_ips:
-            while True:
-                delete_rule = subprocess.run(["sudo", "iptables", "-D", "INPUT", "-p", "tcp", "--dport", "21", "-s", ip], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                if delete_rule.returncode != 0:
-                    break
-            run_command("iptables", "-I", "INPUT", "-p", "tcp", "--dport", "21", "-s", ip, "-j", "ACCEPT")
+    for ip in allowed_ips:
+        run_command("iptables", "-I", "INPUT", "-p", "tcp", "--dport", "21", "-s", ip, "-j", "ACCEPT")
 
 def setup_ftp_user():
     run_command("useradd", "-m", "-d", "/home/ftp_user", "-s", "/bin/bash", "ftp_user")
